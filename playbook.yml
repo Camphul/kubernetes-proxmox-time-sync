@@ -1,0 +1,36 @@
+- name: Configure Chrony on Proxmox and Kubernetes Nodes
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install chrony
+      apt:
+        name: chrony
+        state: present
+
+    - name: Configure chrony to use NTP servers
+      lineinfile:
+        path: /etc/chrony/chrony.conf
+        regexp: '^server'
+        line: "server {{ item }} iburst"
+      loop: "{{ chrony_servers }}"
+      notify:
+        - restart chrony
+
+  handlers:
+    - name: restart chrony
+      service:
+        name: chrony
+        state: restarted
+
+# Special task for Proxmox nodes: Verify time sync with each other
+- name: Verify time sync on Proxmox nodes
+  hosts: proxmox
+  become: true
+  tasks:
+    - name: Check the status of chrony
+      command: chronyc tracking
+      register: chrony_status
+
+    - name: Debug the chrony status
+      debug:
+        msg: "{{ chrony_status.stdout }}"
