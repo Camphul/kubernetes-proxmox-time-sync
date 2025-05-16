@@ -1,2 +1,3 @@
 # Fetch the Proxmox nodes as NTP servers for Kubernetes nodes
 chrony_servers: "{{ groups['proxmox'] }}"
+is_primary: false

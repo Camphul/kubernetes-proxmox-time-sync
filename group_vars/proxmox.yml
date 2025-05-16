@@ -1,2 +1,3 @@
 # List of NTP servers to sync from Proxmox nodes and NTP pool (NL)
 chrony_servers: "{{ groups['proxmox'] + ['nl.pool.ntp.org', '0.nl.pool.ntp.org', '1.nl.pool.ntp.org'] }}"
+is_primary: true

@@ -2,8 +2,12 @@
 server {{ server }} iburst
 {% endfor %}
 
+{% if is_primary %}
+allow all
+local stratum 10
+{% endif %}
 driftfile /var/lib/chrony/chrony.drift
 makestep 1.0 3
 rtcsync
-allow all
 logdir /var/log/chrony
+keyfile /etc/chrony/chrony.keys
