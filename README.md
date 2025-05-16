@@ -5,6 +5,8 @@ I am using Ubuntu as a Kubernetes host OS, there's probably some NTP config avai
 
 This could've also been done using DHCP, but I am using static IP's in my lab. Someone please make some sort of operator for this??? Might do it myself later.
 
+**This playbook only works on APT package managers / Ubuntu Kubernetes hosts**
+
 ## How to apply
 
 Configure the inventory in [inventory.ini](inventory.ini) and then run [run.sh](run.sh) or execute
