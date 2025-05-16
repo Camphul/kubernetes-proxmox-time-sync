@@ -7,14 +7,14 @@
         name: chrony
         state: present
 
-    - name: Configure chrony to use NTP servers
-      lineinfile:
-        path: /etc/chrony/chrony.conf
-        regexp: '^server'
-        line: "server {{ item }} iburst"
-      loop: "{{ chrony_servers }}"
-      notify:
-        - restart chrony
+    - name: Deploy chrony.conf
+      template:
+        src: chrony.conf.j2
+        dest: /etc/chrony/chrony.conf
+        owner: root
+        group: root
+        mode: '0644'
+      notify: restart chrony
 
   handlers:
     - name: restart chrony
